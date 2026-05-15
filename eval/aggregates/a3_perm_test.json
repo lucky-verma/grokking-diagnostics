@@ -1,0 +1,38 @@
+{
+  "note": "amp stats skip first 100 epochs to strip init transient",
+  "n_true": 12,
+  "n_null": 15,
+  "amplitude_perm": {
+    "obs_diff": 0.024526666666666683,
+    "p": 0.0093990600939906,
+    "n_perm": 10000
+  },
+  "entropy_std_perm": {
+    "obs_diff": 0.055251666666666685,
+    "p": 9.999000099990002e-05,
+    "n_perm": 10000
+  },
+  "tail_drift_perm": {
+    "obs_diff": -0.017986666666666637,
+    "p": 0.1640835916408359,
+    "n_perm": 10000
+  },
+  "true_amp_stats": {
+    "mean": 0.11203333333333336,
+    "std": 0.016112434811522292,
+    "n": 12
+  },
+  "null_amp_stats": {
+    "mean": 0.08750666666666668,
+    "std": 0.0247131939569849,
+    "n": 15
+  },
+  "true_tail_stats": {
+    "mean": 0.04626666666666668,
+    "n": 12
+  },
+  "null_tail_stats": {
+    "mean": 0.06425333333333332,
+    "n": 15
+  }
+}

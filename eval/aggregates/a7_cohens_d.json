@@ -1,0 +1,28 @@
+{
+  "add_vs_random_amplitude": {
+    "d": 1.1068073316469063,
+    "n_a": 12,
+    "n_b": 15
+  },
+  "add_vs_mul_amplitude": {
+    "d": 2.240647222358606,
+    "n_a": 7,
+    "n_b": 7
+  },
+  "lnpre_vs_lnpost_amplitude": {
+    "d": 2.7987352252555553,
+    "n_a": 3,
+    "n_b": 3
+  },
+  "dmodel_high_vs_low_amplitude": {
+    "d": 2.1898956295330225,
+    "n_a": 6,
+    "n_b": 6
+  },
+  "depth_deep_vs_shallow_amplitude": {
+    "d": 0.7873440553852702,
+    "n_a": 6,
+    "n_b": 3
+  },
+  "lr_optimal_vs_high_skipped": "E7 LR not easily extractable without config['lr'] \u2014 log for later"
+}

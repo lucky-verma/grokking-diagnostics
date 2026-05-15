@@ -1,0 +1,853 @@
+{
+  "_schema_version": "1.0",
+  "_description": "Machine-readable map: paper claim/figure/table -> aggregate analysis JSON -> raw raw_runs JSONs. This provenance map uses a two-stage pipeline: (1) raw per-run JSONs under results/raw_runs/*.json for the current public-integrated working tree, with a legacy mirror under ../legacy/raw_runs/*.json for earlier cohorts, (2) aggregate a*.json, b*.json, and x*.json files produced by src/build_paper_analyses_and_figs.py and the public artifact integration scripts. Every main.tex headline value traces through this file.",
+  "_last_updated": "2026-05-14",
+  "_paper_slug": "grokking-diagnostics",
+  "_training_log_project": "public-training-log",
+  "_hf_dataset": "lucky-verma/grokking-diagnostics-runs",
+  "_canonical_eff_batch": "n/a (modular arithmetic, full-batch 512)",
+  "_total_runs_in_a6": 660,
+  "_total_runs_main_after_public_integration": 1120,
+  "_public_integration_intervention_2026_05_03": true,
+  "_public_integration_multitask_mlp_retention_2026_05_03": true,
+  "_x26_dense_fss_status": "running on GPU cluster (51/900 as of 2026-05-03; ETA mid-May); not in v1 ship per anti-creep, queued for ICLR 2027 / Nature MI 2028 follow-up",
+  "_raw_json_count_local": 1442,
+  "_raw_json_count_results_raw_runs": 1442,
+  "_raw_json_count_legacy_findings_raw_runs": 861,
+  "_raw_json_count_note": "Counts verified locally on 2026-05-04 with find ... -name '*.json' | wc -l. results/raw_runs is the primary public-integrated tree; ../legacy/raw_runs is the legacy earlier-cohort mirror retained for older provenance references.",
+  "_training_log_runs_total": 1032,
+  "_phase_a_complete": "2026-04-24T09:02:35+0000 (91 runs ok, 0 fail)",
+  "_rllc_a3_complete": "2026-04-24T19:47:59Z (11 ckpts, Pearson r=0.462 DIVERGENT, devinterp 1.0.0 SGLD)",
+  "_filing_adr": "docs/adr/0010-spring-2028-filing-timeline.md",
+  "_public_release_note": "Provenance map exported with the public artifact bundle; private scheduling files are not required for numerical verification.",
+  "_filter_rationale": "post-public artifact integration: 1120 paper-accepted runs (660 earlier + 460 from multi-task cohort + MLP cross-architecture cohort + held-out retention cohort + intervention cohort horizon-matched cohorts integrated 2026-05-03)",
+  "tables": {
+    "fig1_phase_diagram": {
+      "caption": "Two-axis phase diagram (lambda x N), n=300 runs (210 WD-axis + 90 three-scale)",
+      "source_script": "src/build_paper_analyses_and_figs.py:fig1_phase_diagram",
+      "cells": {
+        "wd_axis_logistic_n210": {
+          "aggregate": "a5_wdc_fit.json",
+          "field": "n_records",
+          "value": 210,
+          "raw_sources": "results/raw_runs/{E4,e4_wd_sweep,e4_near_critical}_*.json near-critical cohorts, including Phase A replication at key WDs; legacy mirror also exists under ../legacy/raw_runs/"
+        },
+        "three_scale_axis_n90": {
+          "aggregate": "a6_phase_boundaries.json",
+          "field": "runs (filter label.startswith('three-scale cohort'))",
+          "value": 90,
+          "raw_sources": "results/raw_runs/three-scale cohort_*.json and three-scale cohortn10_*.json (3 sizes x 3 WD x 10 seeds)"
+        }
+      }
+    },
+    "fig2_two_phase": {
+      "caption": "Canonical two-phase dynamics n=50 replicated runs at lambda=1.0 (median/IQR)",
+      "source_script": "src/build_paper_analyses_and_figs.py:fig2_two_phase_trajectory",
+      "cells": {
+        "canonical_replicated_n50": {
+          "aggregate": "a6_phase_boundaries.json",
+          "field": "runs (filter exp in E1_repro/canonical_seed_extension_n10/canonical_seed_extension_n30/canonical_seed_extension_n50, wd=1.0, 4L8H d=128, task=mod_add)",
+          "value": 50,
+          "raw_sources": "results/raw_runs/canonical_{E1,extra,extra30,extra50}_*.json canonical 4L8H d=128 wd=1.0 mod_add runs"
+        }
+      }
+    },
+    "fig3_five_phase": {
+      "caption": "Long-horizon five-stage trajectory with anti-grokking seed-42 focus and 4-seed cross-seed underlay at 20K epochs",
+      "source_script": "src/gen_fig3_cross_seed.py:gen_fig3_cross_seed",
+      "cells": {
+        "canonical_anti_grok_seed42_focus": {
+          "aggregate": "a6_phase_boundaries.json",
+          "field": "runs (label=='E10_4L8H_wd1.0_add_20K_s42_v2')",
+          "value": "test_acc 0.459 final (anti-grok collapse)",
+          "raw_sources": "results/raw_runs/E10_4L8H_wd1.0_add_20K_s42_v2.json",
+          "note": "Canonical seed-42 focus trace for Fig. 3; separate checkpoint-saved seed-42 rerun feeds b5_direct_perm_test and esd_alpha_trace."
+        },
+        "cross_seed_underlay": {
+          "status": "verified",
+          "status_reason": "All four cross-seed raw history files exist and are loaded directly by src/gen_fig3_cross_seed.py.",
+          "field": "history.{test_acc,mean_similarity,entropy_std}",
+          "value": "4 cross-seed underlay traces: seeds 7, 11, 31, 123",
+          "raw_sources": "results/raw_runs/cross-seed cohortckpt_4L8H_wd1.0_add_20K_s{7,11,31,123}.json",
+          "note": "Figure is generated directly from per-run histories; gray traces disclose seed-level variability around the canonical five-stage focus trace."
+        },
+        "e8_retention_context": {
+          "status": "verified",
+          "status_reason": "Retention-rate context is reported from the long-horizon retention aggregate and used only for the seed-dependent-fragility qualifier.",
+          "aggregate": "a6_phase_boundaries.json",
+          "field": "runs (filter long-horizon retention cohort)",
+          "value": "20 runs; retention rates 5/5, 4/5, 3/5, 4/5 at wd 0.1, 0.5, 1.0, 2.0",
+          "raw_sources": "results/raw_runs/long_horizon_4L8H_wd{0.1,0.5,1.0,2.0}_add_20K_s{7,42,123}.json plus long_horizon_n5 extension files",
+          "note": "Used for the manuscript's seed-dependent-fragility qualifier, not as the plotted 5-seed underlay."
+        }
+      }
+    },
+    "fig4_dh_amplitude": {
+      "caption": "Peak sigma_H vs per-head dim d/H, saturating-exponential AIC-preferred, n=44",
+      "source_script": "src/build_paper_analyses_and_figs.py:fig4_dh_amplitude",
+      "cells": {
+        "sat_exp_fit_n44": {
+          "aggregate": "a2_per_head_dim_scaling.json",
+          "field": "n_runs",
+          "value": 44,
+          "raw_sources": "results/raw_runs/E2_*.json fixed-d_model runs: d/H bins {2,4,8,16,32} at d=128",
+          "bins": "7+7+10+10+10 = 44",
+          "best_fit": "sat_exp (from a2.best_fit field)"
+        },
+        "random_label_null": {
+          "aggregate": "a3_perm_test.json",
+          "field": "null_amp_stats.mean",
+          "value": "mean=0.0875, std=0.0247, n=15 (rounded 0.087+-0.025 in text)",
+          "raw_sources": "results/raw_runs/{e8_random_null,e8_random_null_rerun}_4L8H_wd1.0_random_*.json (E8 random-label extension of the E8 control; n_null=15 in a3_perm_test.json)"
+        }
+      }
+    },
+    "fig5_wdc_nu": {
+      "caption": "(A) Logistic P(grok) -> lambda_c=0.0158. (B) Power-law -> nu=0.76 (post Phase A, n=140 grok-positive)",
+      "source_script": "src/build_paper_analyses_and_figs.py:fig5_wdc_nu",
+      "cells": {
+        "logistic_wd_c_n210": {
+          "aggregate": "a5_wdc_fit.json",
+          "field": "wd_c_fit",
+          "value": "wd_c=0.0158, ci=[0.0109, 0.0200], n_bootstrap_ok=1500",
+          "raw_sources": "13 WD bins (0.001..2.0) x n=10-30 per bin. E4 dense-WD, n30 key-cell, and near-critical cohorts, N=210 cells.",
+          "_integration_delta": "Updated 2026-04-24: was wd_c=0.0191 ci=[0.01575, 0.01999] pre-Phase-A; Phase A n=20-30 extension at key WDs tightens fit."
+        },
+        "nu_power_law_n140": {
+          "aggregate": "a5_wdc_fit.json",
+          "field": "nu_fit",
+          "value": "nu=0.7575, n_points=140, ci=[0.7248, 0.7987]",
+          "raw_sources": "Grok-positive subset of logistic cohort (n=140 of 210 post Phase A). ν OUTSIDE 3D Ising (0.63); non-classical exponent.",
+          "_integration_delta": "Updated 2026-04-24: was nu=0.6178 ci=[0.5621, 0.7003] n=103 pre-Phase-A. Small-n fits bias ν downward (noisy tails); n=30 at key WDs steepens slope → ν=0.76. 3D Ising universality (ν≈0.63) now REJECTED (outside CI)."
+        },
+        "nu_jackknife_n148": {
+          "aggregate": "a5_nu_jackknife.json",
+          "field": "nu_full, jackknife.nu_bias_corrected, jackknife.se, jackknife.ci_95, n_points",
+          "value": "nu_full=0.7621, nu_bias_corrected=0.7609, se=0.0194, ci_95=[0.7228, 0.7989], n_points=148",
+          "raw_sources": "Jackknife + residual-bootstrap sensitivity on full post-Phase-A cohort (n=148 grok events).",
+          "_integration_delta": "Updated 2026-04-24: was nu_bc=0.6191 ci=[0.5492, 0.6890] n=108 pre-Phase-A. Convergent with main a5_wdc_fit (ν=0.757)."
+        },
+        "b3_universality_check": {
+          "aggregate": "b3_snic_universality.json",
+          "field": "observed_nu, ci_95, snic_pure_rejected",
+          "value": "nu=0.7575, ci=[0.7248,0.7987], snic_rejected=true, 3d_ising_rejected=true",
+          "raw_sources": "b3_snic_universality.json reads the post-Phase-A a5 power-law fit and tests SNIC/Ising candidate exponents against the 95% CI. Separate FSS-collapse limitations are tracked in b2_fss_collapse.json.",
+          "_method_uncertainty": "The 3-point-per-size FSS-collapse probe remains underpowered for universality-class identification. The paper reports ν=0.757 as an empirical exponent and defers universality-class membership."
+        }
+      }
+    },
+    "tab_perm_symmetry": {
+      "caption": "Direct S_H permutation-symmetry test via PR_norm trace on 11 checkpoints across a 5-seed cohort",
+      "source_script": "src/gen_fig6_fig7.py:gen_fig6_pr_norm",
+      "cells": {
+        "m_perm_n50_canonical": {
+          "aggregate": "b1_permutation_symmetry.json",
+          "field": "aggregate.M_perm_mean, M_perm_std; n_runs",
+          "value": "0.578 +- 0.096, n=50 post Phase A",
+          "raw_sources": "E1 reproducibility (3) plus canonical seed extensions (47) = 50 canonical 4L8H d=128 wd=1.0 runs.",
+          "_integration_delta": "Updated 2026-04-24: was 0.56 +- 0.09 n=22 pre-Phase-A. Superseded by direct PR_norm test (b5_direct_perm_test.json).",
+          "superseded_by": "b5_direct_perm_test"
+        },
+        "b5_direct_perm_test": {
+          "aggregate": "b5_direct_perm_test.json",
+          "field": "PR_norm_median_series, PR_norm_init, PR_norm_final",
+          "value": "PR_norm median trace init 0.86 -> P1 onset 0.71 at epoch 500 -> epoch 1000 value 0.48 -> P2-4 oscillates 0.18-0.55 -> P5 collapse 0.13",
+          "raw_sources": "b5_direct_perm_test.json plus data/raw_jsons/cross_seed_checkpoints/b5_direct_perm_test_cross_seed_s{7,11,31,123}.json on the common 11-checkpoint grid (ep 100, 500, 1K, 2.5K, 5K, 7.5K, 10K, 12.5K, 15K, 17.5K, 20K). Replaces M_perm proxy.",
+          "_integration_status": "Updated 2026-05-12: Fig. 6 overlays the 5-seed cohort, with canonical seed 42 as focus trace and cross-seed IQR/underlay from cross-seed cohort."
+        },
+        "cross_seed_pr_norm": {
+          "aggregate": "eval/pysr_sweep/cross_seed_aggregated/pr_norm_cross_seed.csv",
+          "field": "epoch,median,p25,p75,n_valid_seeds",
+          "value": "4 non-canonical cross-seed cohort seeds aggregated; common 11-checkpoint grid, n_valid_seeds=4 except epoch 17500 where n_valid_seeds=3",
+          "raw_sources": "data/raw_jsons/cross_seed_checkpoints/b5_direct_perm_test_cross_seed_s{7,11,31,123}.json",
+          "note": "Fig. 6 combines this aggregate with canonical seed 42 from b5_direct_perm_test.json for the 5-seed cohort shown in the manuscript."
+        },
+        "t_test_p_value": {
+          "value": "legacy M_perm p<1e-10 (superseded by direct PR_norm trace)",
+          "derivation": "Legacy pre-Phase-A proxy retained for audit trail only; the paper now uses b5_direct_perm_test as the direct symmetry test."
+        }
+      }
+    },
+    "appendix_c1_empirical_validation": {
+      "caption": "Appendix C1 validation table linking PR_norm to eigenvalue CV(lambda)",
+      "aggregate": "eval/c1_empirical_validation.json",
+      "cells": {
+        "identity_error": {
+          "field": "identity_error_bias_corrected.PR_mean_err",
+          "value": "0.000000210 PR_mean_err, PR_max_err=1.73e-6, PR_norm_max_err=2.56e-7, n_valid_rows=183, n_skipped=37",
+          "raw_sources": "b5_direct_perm_test.json plus data/raw_jsons/cross_seed_checkpoints/b5_direct_perm_test_cross_seed_s*.json"
+        },
+        "cv_trajectory_canonical_s42": {
+          "field": "cv_trajectory_canonical_s42.0.mean_CV_lambda",
+          "value": "0.392 mean CV(lambda) at epoch 100 -> 1.880 at epoch 20000, with intermediate phase-scale oscillations; measured and C1-predicted PR_norm match to displayed precision",
+          "raw_sources": "canonical seed 42 checkpoints, four layer rows per checkpoint"
+        },
+        "seeds": {
+          "field": "_seeds",
+          "value": "canonical_seed42 plus cross_seed_s7, cross_seed_s11, cross_seed_s31, cross_seed_s123"
+        }
+      }
+    },
+    "tab_kuramoto": {
+      "caption": "Kuramoto tanh fit on Phase 1, R^2 median 0.843, 10/50 pass R^2>0.9",
+      "source_script": "src/build_paper_analyses_and_figs.py:analyze_kuramoto",
+      "cells": {
+        "r2_median_n50": {
+          "aggregate": "b4_kuramoto_phase1.json",
+          "field": "r2_median, n_r2_ok, n_fit",
+          "value": "r2_median=0.843, n_r2_ok(R2>0.9)=10, n_fit=50 post Phase A",
+          "raw_sources": "Canonical cohort expanded to n=50 via seed-extension cohorts (same filter as fig2_two_phase).",
+          "_integration_delta": "Updated 2026-04-24: was r2_median=0.784 n_ok=3/22 pre-Phase-A; Phase A data lifts median to 0.843 w/ 10/50 passing R²>0.9. Still demoted to Discussion per scope gate (<50% pass R²>0.9)."
+        }
+      }
+    },
+    "tab_controls": {
+      "caption": "Controls: add-vs-random amplitude p=0.009, Cohen d=1.11; task universality n=28",
+      "source_script": "src/build_paper_analyses_and_figs.py (a3 + a7)",
+      "cells": {
+        "add_vs_random_perm": {
+          "aggregate": "a3_perm_test.json",
+          "field": "amplitude_perm",
+          "value": "obs_diff=0.0245, p=0.00940, n_perm=10000"
+        },
+        "cohen_d_add_vs_random": {
+          "aggregate": "a7_cohens_d.json",
+          "field": "add_vs_random_amplitude",
+          "value": "d=1.1068, n_a=12, n_b=15"
+        },
+        "task_universality_m6_n28": {
+          "aggregate": "a6_phase_boundaries.json",
+          "field": "runs (filter exp=='E5_task_control_n10')",
+          "value": 28,
+          "raw_sources": "results/raw_runs/e5_task_control_*.json (mod_add, mod_mul, mod_sub, mod_div; full seed coverage)"
+        }
+      }
+    },
+    "fig8_intervention_forest": {
+      "caption": "intervention paired forest plot for peak sigma_H across B-A, C-A, and C-B contrasts",
+      "source_script": "eval/scripts/gen_fig8_intervention_forest.py",
+      "aggregate": "eval/intervention_stats.json",
+      "cells": {
+        "B_minus_A_peak_sigma_H": {
+          "field": "paired_tests.B_minus_A.peak_ent.mean_diff",
+          "value": "mean_diff=-0.037925, ci_95_diff=[-0.056988, -0.020457], n=20, p_value_t=9.3e-4"
+        },
+        "C_minus_A_peak_sigma_H": {
+          "field": "paired_tests.C_minus_A.peak_ent.mean_diff",
+          "value": "mean_diff=-0.016874, ci_95_diff=[-0.035729, 0.000482], n=19, p_value_t=0.0938"
+        },
+        "C_minus_B_peak_sigma_H": {
+          "field": "paired_tests.C_minus_B.peak_ent.mean_diff",
+          "value": "mean_diff=0.022695, ci_95_diff=[-0.003974, 0.044167], n=19, p_value_t=0.0854"
+        }
+      }
+    },
+    "fig9_multitask_grok_rate": {
+      "caption": "multi-task grok-rate curves by task and scale across seven WD values",
+      "source_script": "eval/scripts/gen_fig9_multitask_heatmap.py",
+      "aggregate": "eval/multitask_summary.json",
+      "cells": {
+        "multitask_full_grid": {
+          "field": "multitask_full_grid (56 composite cells; source existence and aggregate membership checked)",
+          "value": "56 task-scale-WD cells (4 tasks x 2 scales x 7 WD values), each n=5 seeds; grok_rate plotted as groked/n"
+        },
+        "multitask_per_wd_pooled": {
+          "field": "multitask_per_wd (pooled composite curve; source existence and aggregate membership checked)",
+          "value": "pooled grok rate increases from 7/40 at WD=0.003 to 40/40 at WD=0.07"
+        },
+        "multitask_per_task_pooled": {
+          "field": "multitask_per_task",
+          "value": "mod_add 51/70, mod_div 50/70, mod_mul 49/70, mod_sub 34/70"
+        }
+      }
+    },
+    "fig10_cross_arch": {
+      "caption": "cross-architecture wd_c bar chart comparing transformer small, transformer medium, 4L MLP, 4L LSTM, and 4L Mamba",
+      "source_script": "eval/scripts/gen_fig10_cross_arch.py",
+      "aggregate": "eval/multitask_logistic.json",
+      "cells": {
+        "transformer_small_pooled_4ops": {
+          "field": "transformer_small_pooled_4ops",
+          "value": "wd_c=0.007739, ci_95=[0.005574, 0.010647], n_grok=102, n_points=140"
+        },
+        "transformer_medium_pooled_4ops": {
+          "field": "transformer_medium_pooled_4ops",
+          "value": "wd_c=0.012762, ci_95=[0.007647, 0.019415], n_grok=82, n_points=140"
+        },
+        "mlp_4L_h512_mod_add": {
+          "field": "mlp_4L_h512_mod_add",
+          "value": "wd_c=0.051081, ci_95=[0.049527, 0.059119], n_grok=13, n_points=70"
+        },
+        "lstm_4L_h512_mod_add": {
+          "field": "lstm_4L_h512_mod_add",
+          "value": "wd_c=0.036457, ci_95=[0.029895, 0.047333], n_grok=22, n_points=70",
+          "raw_sources": "cross-arch/lstm/**/*.json",
+          "launcher": "src/lstm_sweep.sh",
+          "trainer": "../src/train_lstm.py",
+          "cluster": "H100 GPU cluster (5-per-GPU)",
+          "training_log_group": "lstm_crossarch",
+          "completed_utc": "2026-05-12T06:08:40Z",
+          "n_params_actual": "7.68M (7,680,640) — not parameter-matched to canonical transformer-small 0.82M"
+        },
+        "mamba_4L_d128_mod_add": {
+          "field": "mamba_4L_d128_mod_add",
+          "value": "wd_c=0.014389, ci_95=[0.010565, 0.015954], n_grok=46, n_points=70",
+          "rich_aggregate": "eval/mamba_modadd_exp4_logistic.json",
+          "raw_sources": "cross-arch/mamba/modadd-exp4/**/*.json",
+          "launcher": "cross-arch/mamba/launch_shard.sh + run_shard.sh",
+          "trainer": "cross-arch/mamba/train_mamba.py",
+          "aggregator": "eval/scripts/aggregate_lstm_crossarch.py (Mamba mode)",
+          "cluster": "H100 GPU cluster (12-per-GPU, TF32 + cudnn.benchmark + GPU-accumulator pattern)",
+          "training_log_group": "mamba_modadd_exp4",
+          "completed_utc": "2026-05-14T14:46:04Z",
+          "n_params_actual": "0.96M (957,952) — roughly parameter-matched to transformer-small 0.82M",
+          "config": "4L pure-PyTorch Mamba, d_model=128, expand=4, d_state=16, d_conv=4, no attention, selective scan",
+          "fit_note": "Laplace-smoothed logistic (n=10 per bin smoothing) to handle the sharp p=1.0 saturation above wd=0.02; raw bins 0/0/6/10/10/10/10"
+        }
+      }
+    },
+    "appendix_mamba_scope_probes": {
+      "caption": "Mamba scope-probe-within-scope-probe sweeps: expand-2 sensitivity on mod_add and mod_mul cross-task",
+      "source_script": "eval/scripts/aggregate_lstm_crossarch.py",
+      "cells": {
+        "mamba_4L_d128_e2_mod_add": {
+          "field": "mamba_4L_d128_e2_mod_add",
+          "value": "wd_c=0.016321, ci_95=[0.013809, 0.018160], n_grok=42, n_points=70",
+          "rich_aggregate": "eval/mamba_modadd_exp2_logistic.json",
+          "raw_sources": "cross-arch/mamba/modadd-exp2/**/*.json",
+          "training_log_group": "mamba_modadd_exp2",
+          "n_params_actual": "0.49M (492,032)",
+          "config": "4L Mamba, d_model=128, expand=2, d_state=16, d_conv=4 — expand-factor sensitivity probe",
+          "completed_utc": "2026-05-14T14:46:04Z"
+        },
+        "mamba_4L_d128_mod_mul": {
+          "field": "mamba_4L_d128_mod_mul",
+          "value": "wd_c=0.019086, ci_95=[0.016877, 0.021855], n_grok=37, n_points=70",
+          "rich_aggregate": "eval/mamba_modmul_exp4_logistic.json",
+          "raw_sources": "cross-arch/mamba/modmul-exp4/**/*.json",
+          "training_log_group": "mamba_modmul_exp4",
+          "n_params_actual": "0.96M (957,952)",
+          "config": "4L Mamba, d_model=128, expand=4, on mod_mul — cross-task sensitivity probe",
+          "completed_utc": "2026-05-14T14:46:04Z"
+        }
+      }
+    },
+    "discussion_mlp_pilot_mlp_scope_probe": {
+      "caption": "MLP cross-architecture scope probe: grokking itself is not attention-specific, but σ_H/sbar remain attention-head diagnostics",
+      "source_script": "GPU cluster script eval/mlp_pilot/mlp_pilot_20260424_233502.log",
+      "cells": {
+        "mlp_pilot_done": {
+          "aggregate": "eval/mlp_pilot/mlp_pilot_summary.json",
+          "field": "status, marker, grid",
+          "value": "DONE 2026-04-25T00:14:41Z ok=12 fail=0"
+        },
+        "mlp_pilot_grok_by_wd": {
+          "aggregate": "eval/mlp_pilot/mlp_pilot_summary.json",
+          "field": "aggregate_by_wd",
+          "value": "wd0.01: 0/3 grok; wd0.1: 1/3; wd0.5: 3/3; wd1.0: 3/3",
+          "raw_sources": "eval/mlp_pilot/mlp_pilot_20260424_233502.log"
+        }
+      }
+    },
+    "tab_numrunsmain": {
+      "caption": "Total run count macro \\numrunsmain{1120}",
+      "cells": {
+        "total_runs": {
+          "aggregate": "docs/paper_sources.json",
+          "field": "_total_runs_main_after_public_integration",
+          "value": 1120,
+          "raw_sources": "1120 paper-accepted runs after public artifact integration: 660 earlier accepted runs plus 460 multi-task cohort/MLP cross-architecture cohort/held-out retention cohort/intervention cohort horizon-matched public-integration runs. Primary raw tree currently has 1442 JSONs in results/raw_runs; legacy mirror has 861 JSONs in ../legacy/raw_runs. Filters and aggregate membership are defined by a6_phase_boundaries.json and the public aggregate JSONs.",
+          "_integration_delta": "Updated 2026-05-04: total run macro synchronized to 1120 after public artifact integration; 1442 raw JSON files include non-paper or filtered records."
+        }
+      }
+    },
+    "fig7_esd_alpha": {
+      "caption": "ESD heavy-tail exponent alpha trace on 11 canonical seed-42 canonical checkpoints",
+      "source_script": "src/gen_fig6_fig7.py:gen_fig7_esd_alpha",
+      "aggregate": "esd_alpha_trace.json",
+      "cells": {
+        "alpha_init": {
+          "field": "alpha_median_series[0]",
+          "value": "2.072 at epoch 100"
+        },
+        "alpha_grok_onset": {
+          "field": "alpha_median_series[1]",
+          "value": "1.392 at epoch 500"
+        },
+        "alpha_phase5_final": {
+          "field": "alpha_median_series[-1]",
+          "value": "1.346 at epoch 20000"
+        },
+        "alpha_heavy_tail_after_onset": {
+          "field": "alpha_median_series[1:]",
+          "value": "all post-onset medians < 2 through Phase 5"
+        },
+        "seed_coverage": {
+          "status": "verified",
+          "status_reason": "Seed coverage is an explicit scope note: Fig. 7 main trace is canonical seed 42; cross-seed Weightwatcher sidecar is not promoted to the main figure.",
+          "value": "Main Fig. 7 is seed-42 only; matched-grid cross-seed Weightwatcher is deferred. Coarser cross-seed sidecar evidence exists but is not used for the main figure claim.",
+          "raw_sources": "data/raw_jsons/cross_seed_checkpoints/esd_alpha_trace_cross_seed_s{7,11,31,123}.json; eval/cross_seed_aggregated/esd_alpha_cross_seed.csv",
+          "note": "Matches main.tex Figure-specific seed coverage paragraph: Fig. 7 is scoped to canonical seed 42; cross-seed Weightwatcher is not used for the v1 main-figure claim."
+        }
+      }
+    },
+    "sec_retention_discriminator": {
+      "caption": "held-out retention cohort held-out retention discriminator, correlational only",
+      "source_script": "src/retention_predictor.py",
+      "aggregate": "eval/holdout_retention.json",
+      "cells": {
+        "rf_holdout_auc": {
+          "field": "rf.holdout_auc",
+          "value": 0.7992424242424242
+        },
+        "rf_holdout_brier": {
+          "field": "rf.holdout_brier",
+          "value": 0.09807870321913324
+        },
+        "logistic_holdout_auc": {
+          "field": "logistic.holdout_auc",
+          "value": 0.678030303030303
+        },
+        "train_holdout_sizes": {
+          "field": "sample_sizes",
+          "value": "train=998, holdout=50"
+        },
+        "gate_verdict": {
+          "field": "gate.verdict",
+          "value": "CORRELATIONAL_ONLY; below pre-registered AUC >= 0.85 predictor gate"
+        },
+        "top5_features": {
+          "field": "rf.top5_features",
+          "value": "wd 0.247, weight_norm 0.220, sim_mean 0.145, ent_std 0.130, test_acc 0.123"
+        }
+      }
+    },
+    "sec_intervention_stratified": {
+      "caption": "intervention WD-stratified paired contrasts reported in main text",
+      "source_script": "eval/intervention_stats.py",
+      "aggregate": "eval/intervention_stats.json",
+      "cells": {
+        "wd005_B_minus_A_peak_ent": {
+          "field": "stratified_by_wd.wd0.05.B_minus_A__peak_ent",
+          "value": "mean_diff=-0.05515, p_t=0.004463, d=-1.190, n=10"
+        },
+        "wd0015_B_minus_A_peak_ent": {
+          "field": "stratified_by_wd.wd0.015.B_minus_A__peak_ent",
+          "value": "mean_diff=-0.02070, p_t=0.08611, d=-0.609, n=10"
+        },
+        "wd005_C_minus_B_peak_ent": {
+          "field": "stratified_by_wd.wd0.05.C_minus_B__peak_ent",
+          "value": "mean_diff=0.04821, p_t=0.001428, d=1.586, n=9"
+        }
+      }
+    },
+    "appendix_lambda_c_sensitivity": {
+      "caption": "Table 3 AdamW-relaxation lambda_c sensitivity by p_relax",
+      "source_script": "one-line derivation from Eq. lambda_c=-log(1-p_relax)/(lr*kappa*T_max)",
+      "aggregate": "eval/adamw_relaxation/lambda_c_sensitivity_table.json",
+      "cells": {
+        "kappa_source": {
+          "field": "kappa",
+          "value": "18.58316710113753 from eval/adamw_relaxation/kappa_cross_seed.json canonical_s42 full fit"
+        },
+        "p099_lambda_c_bound": {
+          "field": "rows[p_relax=0.99].derived_lambda_c",
+          "value": 0.012390703266361401
+        },
+        "p099_ratio": {
+          "field": "rows[p_relax=0.99].ratio_derived_over_empirical",
+          "value": 0.7842217257190759
+        },
+        "p099_in_ci": {
+          "field": "rows[p_relax=0.99].in_empirical_95_ci",
+          "value": true
+        }
+      }
+    }
+  },
+  "polluted_folders_quarantined": [
+    "legacy/raw_runs/E10_4L8H_wd1.0_add_20K_s42.json (v1 truncated at ep 2000, superseded by _v2)",
+    "legacy/raw_runs/E9_12L12H_wd1.0_add_s42.json (5K epochs insufficient; redone as E9_30K)",
+    "legacy/raw_runs/.cache/huggingface/upload/* (HF upload metadata, not experiment data)"
+  ],
+  "pending_reruns": {
+    "canonical_checkpoint_save": {
+      "runs": 11,
+      "status": "completed",
+      "tmux": "paper_finalize (PID 636410, 2026-04-20 start)",
+      "target_figures": [
+        "fig3_five_phase (ckpt-based replication)"
+      ],
+      "blocker_for": []
+    },
+    "canonical_seed_extension_n30": {
+      "runs": 20,
+      "status": "completed",
+      "tmux": "sweep (PID 600987)",
+      "target_tables": [
+        "tab_perm_symmetry (confirm M_perm with wider cohort)"
+      ]
+    },
+    "scale85m_wd0.1_30k": {
+      "runs": 3,
+      "status": "in_progress",
+      "tmux": "sweep + run_x17_s123 (PID 632459)",
+      "target_figures": [
+        "fig1_phase_diagram (N-axis scale expansion)"
+      ]
+    }
+  },
+  "appendix_A_derivation_T_DEEP_2": {
+    "_added": "2026-05-04",
+    "_paper_section": "main.tex sec:appendix-derivation (Section A.5)",
+    "_description": "AdamW-relaxation derivation of lambda_c with cross-seed kappa stability. T-DEEP-2 hybrid path (PySR-driven) executed in single session; supersedes T1_lambda_c_existence.md.",
+    "boxed_equation": {
+      "label": "eq:lambda-c-derived",
+      "form": "lambda_c = -ln(1 - p_relax) / (eta * kappa * T_max)"
+    },
+    "canonical_cohort_canonical_s42": {
+      "fit_omega_inf": 28.4,
+      "fit_omega_0_at_bound": 200,
+      "fit_lr_lambda_eff": 0.0186,
+      "kappa": 18.6,
+      "lambda_c_p99": 0.0124,
+      "in_empirical_95_ci": true,
+      "ckpts_used": 11,
+      "lr": 0.001,
+      "T_max": 20000,
+      "lambda_train": 1.0,
+      "source_csv": "eval/adamw_relaxation/summary.csv",
+      "source_json": "eval/adamw_relaxation/lambda_c_derivation.json"
+    },
+    "table2_sensitivity_to_p_relax": {
+      "p_relax_0p99_headline": {
+        "lambda_c_derived": 0.0124,
+        "in_ci": true,
+        "rationale": "matches test_acc>=0.99 grokking criterion"
+      }
+    },
+    "cross_seed_full_fit": {
+      "n_cohorts": 5,
+      "in_ci_count": 2,
+      "kappa_high_cluster": {
+        "seeds": [
+          42,
+          7
+        ],
+        "values": [
+          18.6,
+          19.0
+        ]
+      },
+      "kappa_low_cluster": {
+        "seeds": [
+          11,
+          31,
+          123
+        ],
+        "values": [
+          5.5,
+          6.9,
+          6.4
+        ]
+      },
+      "lambda_c_mean": 0.027,
+      "lambda_c_std": 0.012,
+      "interpretation": "bimodal kappa from late-stage anti-grok cycle contaminating single-exponential fit",
+      "source": "eval/adamw_relaxation/kappa_cross_seed.json"
+    },
+    "cross_seed_early_fit_t_le_5000_HEADLINE": {
+      "n_cohorts": 5,
+      "in_ci_count": 3,
+      "kappa_values": [
+        18.4,
+        19.2,
+        17.9,
+        8.1,
+        8.6
+      ],
+      "lambda_c_mean": 0.0185,
+      "lambda_c_std": 0.0074,
+      "lambda_c_min": 0.012,
+      "lambda_c_max": 0.028,
+      "mean_in_empirical_95_ci": true,
+      "interpretation": "early-window fit eliminates late-cycle contamination; mean shifts inside empirical 95% CI",
+      "source": "eval/adamw_relaxation/kappa_refined_early_fit.json",
+      "figure": "figures/fig11_omega_relaxation_fit.pdf"
+    },
+    "pysr_upper_bound_anti_grok": {
+      "form": "wd_c_upper ~ sqrt(d/H)",
+      "canonical_d_over_H": 16,
+      "wd_c_upper_canonical": 4,
+      "interpretation": "G->C anti-grok crossover from PySR symbolic-regression saddle structure",
+      "source": "eval/pysr/FINDINGS.md"
+    },
+    "lean_formalization": {
+      "build_target": "lean_proofs/Diagnostics.lean",
+      "mathlib_version": "v4.29.0",
+      "modules_proven": [
+        "A1_memorize_below",
+        "A1_generalize_middle",
+        "A1_collapse_above",
+        "B1_collapse_dominates",
+        "C1_identity",
+        "E1_rank_bound"
+      ],
+      "modules_with_sorry": [],
+      "modules_deferred": [
+        "D1 (Hoeffding; mathlib has stronger MeasureTheory.Concentration)"
+      ],
+      "build_status_2026_05_04_evening": "PASS (2226 jobs OK, NO sorry, only unused-variable cosmetic warnings)",
+      "c1_closure_lemma": "sum_sq_eq_sum_sub_mean_sq_add_n_mul_mean_sq (custom variance identity, ~30 lines)"
+    },
+    "scope_disclaimers": [
+      "single architecture (4L8H d=128)",
+      "single task (mod_+, p=97)",
+      "single training lambda for fit calibration (lambda=1.0)",
+      "kappa empirically fit per cohort, not derived from AdamW SDE first principles",
+      "single-exponential under-models 5-phase trajectory; early-fit window mitigates",
+      "2 of 5 cross-seed cohorts (s31, s123) low-kappa even on early window"
+    ]
+  },
+  "open_slots": {
+    "A4_FSS_fill_n10": {
+      "status": "completed",
+      "description": "three-scale axis filled to n=10/cell post Phase A. Still not enough for a formal universality-class data-collapse claim because the WD grid has only 3 bins and n>=20/cell is preferred.",
+      "affects_claim": "FSS collapse remains a disclosed limitation for universality-class identification, not for the empirical phase-diagram claim."
+    },
+    "A6_canonical_n50_scope_grade": {
+      "status": "completed_for_canonical_cell",
+      "description": "Canonical n=50 cell is n=50 post Phase A; broader Nature-MI-grade multi-cell replication is deferred.",
+      "affects_claim": "nu CI tightening for Nature MI follow-up"
+    }
+  },
+  "training_log_project_info": {
+    "entity": "public",
+    "project": "grokking-diagnostics",
+    "total_runs": 1032,
+    "finished": 928,
+    "crashed": 13,
+    "note": "W&B total > a6 total because W&B includes pilots, dev iterations, and crashed runs not folded into paper analyses. Finished/crashed subtotals were not refreshed in this ledger update."
+  },
+  "hf_dataset_info": {
+    "slug": "lucky-verma/grokking-diagnostics-runs",
+    "file_count_last_push": 1792,
+    "last_push_commit": "public day-0 artifact export",
+    "last_push_date": "2026-05-14",
+    "delta_pending": "Public artifact bundle current through the arXiv v1 export."
+  },
+  "_total_runs_in_a6_note": "a6_phase_boundaries.json contains 660 earlier accepted runs; main manuscript macro uses _total_runs_main_after_public_integration=1120 after public artifact integration.",
+  "_multitask_integrated_2026_05_03": {
+    "_paper_section": "main.tex section sec:results:controls (paragraph Multi-task replication at n=280)",
+    "_compute": "multi-task chain via multitask_multitask.py; 280 runs (4 ops x 2 scales x 7 WD x 5 seeds); DONE 2026-04-28T07:16Z",
+    "_aggregate_json": "eval/multitask_logistic.json + eval/multitask_summary.json",
+    "_raw_json_count": 280,
+    "headline": "Per-WD pooled grok rate monotone 0.18 -> 1.00 (wd 0.003 -> 0.07); per-task hardness mod_- > mod_div ~ mod_mul ~ mod_+; pooled 4-ops logistic wd_c overlapping CIs across small/medium",
+    "logistic_pooled": {
+      "multi-task cohort_small_pooled_4ops_n140": {
+        "wd_c": 0.0077,
+        "ci_95": [
+          0.0056,
+          0.0106
+        ],
+        "n_grok": 102,
+        "n_total": 140
+      },
+      "multi-task cohort_medium_pooled_4ops_n140": {
+        "wd_c": 0.0128,
+        "ci_95": [
+          0.0076,
+          0.0194
+        ],
+        "n_grok": 82,
+        "n_total": 140
+      }
+    },
+    "logistic_per_task_medium_n35_each": {
+      "mod_div": {
+        "wd_c": 0.0028,
+        "ci_95": [
+          4.2e-07,
+          0.0079
+        ]
+      },
+      "mod_add": {
+        "wd_c": 0.0119,
+        "ci_95": [
+          0.0057,
+          0.0234
+        ]
+      },
+      "mod_mul": {
+        "wd_c": 0.0189,
+        "ci_95": [
+          0.0031,
+          0.0478
+        ]
+      },
+      "mod_sub": {
+        "wd_c": 0.0254,
+        "ci_95": [
+          0.0161,
+          0.0385
+        ]
+      }
+    },
+    "scope_limits": [
+      "two scales tested (4L8H d=128, 6L8H d=512)",
+      "seven near-critical WD values (0.003 to 0.07)",
+      "five seeds per cell",
+      "10K epoch horizon",
+      "supersedes E5 task-control n=28 as larger replication; consistent with canonical lambda_c=0.0158 [0.0109, 0.0200]"
+    ],
+    "multiple_comparison_note": "main.tex treats the 8 multi-task per-task logistic fits (4 tasks x 2 scales) as one multiple-comparison family for inference; individual task-ordering claims remain descriptive, while the paper's active claim is the pooled monotone WD-control pattern from eval/multitask_logistic.json and eval/multitask_summary.json."
+  },
+  "_mlp_cross_arch_integrated_2026_05_03": {
+    "_paper_section": "main.tex section sec:results:cross-arch (NEW); discussion paragraph Architecture scope refreshed",
+    "_compute": "MLP cross-architecture chain via mlp_mlp_full_grid.py; 70 runs (1 arch 4L MLP h=512 x 1 task mod_+ x 7 WD x 10 seeds); DONE 2026-04-28T09:44Z",
+    "_aggregate_json": "eval/multitask_logistic.json",
+    "_raw_json_count": 70,
+    "headline": "MLP grokking on mod_+ confirmed but wd_c shifted ~3-7x relative to transformer cohort",
+    "logistic": {
+      "mlp_4L_h512_mod_add": {
+        "wd_c": 0.0511,
+        "ci_95": [
+          0.0495,
+          0.0591
+        ],
+        "n_grok": 13,
+        "n_total": 70
+      }
+    },
+    "interpretation": "grokking is not attention-specific; canonical wd_c is architecture-dependent; sigma_H/mean_sim order params are attention-specific by definition and not transferred to MLP",
+    "supersedes": "12-run MLP probe demoted from Discussion to formal subsection sec:results:cross-arch with MLP 70-run evidence",
+    "scope_limits": [
+      "one MLP arch only",
+      "one task only (mod_+)",
+      "single hidden width 512"
+    ]
+  },
+  "_retention_holdout_integrated_2026_05_03": {
+    "_paper_section": "main.tex section sec:results:retention-discrim (NEW)",
+    "_compute": "held-out retention cohort chain via retention_holdout.py; 50 runs holdout cohort + train cohort 998 from Phase A pool; DONE 2026-04-28T15:03Z",
+    "_aggregate_json": "eval/holdout_retention.json",
+    "_raw_json_count": 50,
+    "headline": "Order parameters are correlational discriminators of long-horizon retention; holdout AUC=0.799 below predictor threshold 0.85",
+    "_verdict": "CORRELATIONAL_ONLY (per pre-specified predictor gate)",
+    "rf_holdout": {
+      "auc": 0.7992,
+      "brier": 0.0981,
+      "top5_features": [
+        [
+          "wd",
+          0.247
+        ],
+        [
+          "weight_norm",
+          0.22
+        ],
+        [
+          "sim_mean",
+          0.145
+        ],
+        [
+          "ent_std",
+          0.13
+        ],
+        [
+          "test_acc",
+          0.123
+        ]
+      ]
+    },
+    "logistic_holdout": {
+      "auc": 0.678,
+      "brier": 0.2563,
+      "top5_features": [
+        [
+          "weight_norm",
+          2.014
+        ],
+        [
+          "wd",
+          1.508
+        ],
+        [
+          "d_per_H",
+          1.218
+        ],
+        [
+          "ent_std",
+          1.161
+        ],
+        [
+          "scale",
+          1.01
+        ]
+      ]
+    },
+    "train_auc_in_distribution": 0.834,
+    "generalization_gap": -0.035,
+    "scope_limits": [
+      "holdout WDs are out-of-distribution (0.025, 0.04 not in train cohort)",
+      "demoted from predictor (would require AUC >= 0.85) to correlational diagnostic",
+      "order-parameter features (sim_mean + ent_std) carry 0.275 of RF feature importance, comparable to weight_norm alone"
+    ]
+  },
+  "_intervention_integrated_2026_05_03": {
+    "_paper_section": "main.tex section sec:causal-intervention (NEW 4.6, between perm-symmetry and controls)",
+    "_compute": "intervention chain via intervention_intervention.py; 60 runs (3 groups x 10 seeds x 2 WDs); DONE 2026-04-28T~18:14Z",
+    "_aggregate_json": "eval/intervention_stats.json",
+    "_raw_json_count": 60,
+    "_groups": {
+      "A_control": "no intervention",
+      "B_head_reinit": "re-init 2/8 attention heads at per-seed peak-sigma_H epoch",
+      "C_weight_clip": "clip ||W||_2 to per-seed median at same epoch"
+    },
+    "_grok_rates": "A 20/20, B 20/20, C 19/19 (intervention does not prevent grokking)",
+    "headline_paired_test_B_minus_A_pooled_n20": {
+      "peak_sigma_H_change_mean": -0.038,
+      "peak_sigma_H_change_std": 0.043,
+      "paired_t_p_value": 0.00093,
+      "wilcoxon_p_value": 0.0025,
+      "cohens_d": -0.876
+    },
+    "stratified_wd_0p05_n10": {
+      "peak_sigma_H_change_mean": -0.055,
+      "peak_sigma_H_change_std": 0.046,
+      "paired_t_p_value": 0.0045,
+      "cohens_d": -1.19,
+      "interpretation": "strongest effect at canonical near-critical WD"
+    },
+    "stratified_wd_0p015_n10": {
+      "peak_sigma_H_change_mean": -0.021,
+      "peak_sigma_H_change_std": 0.034,
+      "paired_t_p_value": 0.086,
+      "cohens_d": -0.609,
+      "interpretation": "weaker effect at sub-critical WD"
+    },
+    "C_minus_B_at_canonical_wd_0p05_n9": {
+      "peak_sigma_H_change_mean": 0.048,
+      "paired_t_p_value": 0.0014,
+      "cohens_d": 1.586,
+      "interpretation": "weight clip vs head reinit shows opposite sign on peak sigma_H, isolating effect to head-pattern structure not weight magnitude"
+    },
+    "multiple_comparison_note": {
+      "family": "15 intervention paired-outcome tests",
+      "strict_bonferroni_alpha": 0.0033333333333333335,
+      "strict_bonferroni_survives": [
+        "pooled B_minus_A peak_sigma_H p=9.3e-4",
+        "canonical WD=0.05 C_minus_B peak_sigma_H p=1.4e-3"
+      ],
+      "planned_stratified_followup": "B_minus_A peak_sigma_H at canonical WD=0.05 p=4.5e-3 retained under Holm-Bonferroni; sub-critical WD=0.015 p=0.086 rejected",
+      "aggregate": "eval/intervention_stats.json"
+    },
+    "scope_disclaimers": [
+      "single architecture (4L8H d=128)",
+      "single task (mod_+, p=97)",
+      "two WD values tested (0.015, 0.05)",
+      "intervention does not prevent grokking; effect on Phase 2 amplitude only",
+      "no claim of generalization beyond tested conditions"
+    ]
+  }
+}

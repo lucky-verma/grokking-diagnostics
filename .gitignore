@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Data (downloaded via scripts/download_dataset.py)
+data/raw_jsons/
+data/*.json
+*.pt
+*.ckpt
+
+# Lean
+lean_proofs/.lake/
+lean_proofs/build/
+lean_proofs/lakefile.olean
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Generated
+figures/*_regen.pdf
+figures/*_regen.png
+paper.pdf

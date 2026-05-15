@@ -1,0 +1,55 @@
+cff-version: 1.2.0
+title: "Weight Decay Regimes in Grokking Transformers: Cheap Online Diagnostics"
+message: "If you use this work, please cite it as below."
+type: article
+authors:
+  - given-names: Lucky
+    family-names: Verma
+    email: luckyv1@umbc.edu
+    affiliation: Independent Researcher
+
+preferred-citation:
+  type: article
+  title: "Weight Decay Regimes in Grokking Transformers: Cheap Online Diagnostics"
+  authors:
+    - given-names: Lucky
+      family-names: Verma
+      email: luckyv1@umbc.edu
+      affiliation: Independent Researcher
+  year: 2026
+keywords:
+  - grokking
+  - transformers
+  - weight decay
+  - training dynamics
+  - phase transitions
+  - attention diagnostics
+  - mechanistic interpretability
+  - modular arithmetic
+  - state-space models
+  - Mamba
+  - LSTM
+  - cross-architecture
+  - formal verification
+  - Lean 4
+license: Apache-2.0
+repository-code: "https://github.com/lucky-verma/grokking-diagnostics"
+repository-artifact: "https://huggingface.co/datasets/lucky-verma/grokking-diagnostics-runs"
+abstract: >
+  Grokking transformers trained on modular arithmetic exhibit sharp transitions
+  between memorization, generalization, and collapse regimes. We show that
+  weight decay acts as a scalar empirical control parameter for these regimes,
+  and we introduce two cheap online diagnostics, mean pairwise attention-head
+  cosine similarity and entropy standard deviation, that track training dynamics
+  from attention activations alone and complement Hessian-based diagnostics at
+  lower compute cost. Across 1120 modular-arithmetic runs (0.82M to 85M
+  parameters), the weight-decay axis separates memorization, developmental
+  grokking, and collapse regimes. A near-transition logistic fit localizes the
+  memorization-to-developmental boundary at lambda_c=0.0158 (95% CI
+  [0.0109, 0.0200], N=210); a power-law fit gives empirical exponent nu=0.757
+  (CI [0.725, 0.799]). Three cross-architecture scope probes (4L MLP h=512,
+  4L LSTM h=512, 4L Mamba d=128) replicate the transition in non-attention
+  architectures with per-architecture lambda_c spanning roughly an order of
+  magnitude; the Mamba lambda_c=0.0144 CI [0.0106, 0.0160] overlaps the
+  transformer canonical CI. Four diagnostic well-formedness identities are
+  formally verified in Lean 4 against mathlib v4.29.0.

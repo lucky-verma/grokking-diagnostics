@@ -1,0 +1,102 @@
+{
+  "_description": "C1 empirical-theory bridge: PR = H/(1+CV²(λ)) tested on real ckpts with sample-std bias correction",
+  "_purpose": "validates the paper's Module C1 identity against empirical checkpoint aggregates",
+  "_data_source": "b5_direct_perm_test.json + cross-seed direct-permutation aggregates",
+  "_methodology": "C1 derived for population CV. b5 stores eig_std from torch with unbiased=True (sample std). Correction: var_pop = var_sample * (H-1)/H.",
+  "_n_valid_rows": 183,
+  "_n_skipped": 37,
+  "_seeds": [
+    "canonical_seed42",
+    "cross_seed_s11",
+    "cross_seed_s123",
+    "cross_seed_s31",
+    "cross_seed_s7"
+  ],
+  "identity_error_bias_corrected": {
+    "PR_mean_err": 2.0947103153673885e-07,
+    "PR_max_err": 1.73203710396308e-06,
+    "PR_max_err_99pct": 1.3624330672001878e-06,
+    "PR_norm_mean_err": 3.0992110318458665e-08,
+    "PR_norm_max_err": 2.5594882124835294e-07,
+    "verdict": "identity holds (numerical roundoff)"
+  },
+  "cv_trajectory_canonical_s42": [
+    {
+      "epoch": 100,
+      "mean_CV_lambda": 0.3917650079513983,
+      "mean_PR_norm_measured": 0.8644078373908997,
+      "mean_PR_norm_predicted_C1_corrected": 0.8644078119617973,
+      "phase_label": "P0_init"
+    },
+    {
+      "epoch": 500,
+      "mean_CV_lambda": 0.7880800222261417,
+      "mean_PR_norm_measured": 0.6123020350933075,
+      "mean_PR_norm_predicted_C1_corrected": 0.6123019703947871,
+      "phase_label": "P1_sync"
+    },
+    {
+      "epoch": 1000,
+      "mean_CV_lambda": 1.277746913875611,
+      "mean_PR_norm_measured": 0.43380290921777487,
+      "mean_PR_norm_predicted_C1_corrected": 0.4338029149804248,
+      "phase_label": "P1_sync"
+    },
+    {
+      "epoch": 2500,
+      "mean_CV_lambda": 0.8701717884963526,
+      "mean_PR_norm_measured": 0.5477081090211868,
+      "mean_PR_norm_predicted_C1_corrected": 0.5477081274054496,
+      "phase_label": "P2_diff"
+    },
+    {
+      "epoch": 5000,
+      "mean_CV_lambda": 1.6013926532357032,
+      "mean_PR_norm_measured": 0.3057237835600972,
+      "mean_PR_norm_predicted_C1_corrected": 0.3057238010659603,
+      "phase_label": "P3_resync"
+    },
+    {
+      "epoch": 7500,
+      "mean_CV_lambda": 1.7258248547635187,
+      "mean_PR_norm_measured": 0.29250360070727766,
+      "mean_PR_norm_predicted_C1_corrected": 0.2925036117006191,
+      "phase_label": "P3_resync"
+    },
+    {
+      "epoch": 10000,
+      "mean_CV_lambda": 1.515972329272418,
+      "mean_PR_norm_measured": 0.3347603790462017,
+      "mean_PR_norm_predicted_C1_corrected": 0.3347604084503139,
+      "phase_label": "P4_2nd_diff"
+    },
+    {
+      "epoch": 12500,
+      "mean_CV_lambda": 1.7379273831394444,
+      "mean_PR_norm_measured": 0.2757105124182999,
+      "mean_PR_norm_predicted_C1_corrected": 0.27571052016827924,
+      "phase_label": "P4_2nd_diff"
+    },
+    {
+      "epoch": 15000,
+      "mean_CV_lambda": 1.4762762495342063,
+      "mean_PR_norm_measured": 0.3987863560517629,
+      "mean_PR_norm_predicted_C1_corrected": 0.39878639607908367,
+      "phase_label": "P5_collapse"
+    },
+    {
+      "epoch": 17500,
+      "mean_CV_lambda": 1.5909943220377045,
+      "mean_PR_norm_measured": 0.32638289818229776,
+      "mean_PR_norm_predicted_C1_corrected": 0.32638288286941114,
+      "phase_label": "P5_collapse"
+    },
+    {
+      "epoch": 20000,
+      "mean_CV_lambda": 1.8803278168463713,
+      "mean_PR_norm_measured": 0.2506046199705452,
+      "mean_PR_norm_predicted_C1_corrected": 0.2506046048771253,
+      "phase_label": "P5_collapse"
+    }
+  ]
+}

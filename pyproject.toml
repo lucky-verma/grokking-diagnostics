@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "grokking-diag"
+version = "0.1.0"
+description = "Cheap online diagnostics for transformer training dynamics: mean pairwise attention-head cosine similarity, entropy standard deviation across heads, and participation-ratio of head-output vectors. Companion to Verma 2026."
+readme = "README.md"
+license = {text = "Apache-2.0"}
+authors = [{name = "Lucky Verma", email = "luckyv1@umbc.edu"}]
+keywords = ["machine-learning", "transformer", "grokking", "training-dynamics", "phase-transition"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24",
+    "scikit-learn>=1.3",
+]
+
+[project.optional-dependencies]
+torch = ["torch>=2.0"]
+demo = ["gradio>=4.0", "datasets>=2.14"]
+dev = ["pytest>=7.0", "pytest-cov", "ruff", "mypy"]
+
+[project.scripts]
+grokking-diag = "grokking_diag.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/lucky-verma/grokking-diagnostics"
+Dataset = "https://huggingface.co/datasets/lucky-verma/grokking-diagnostics-runs"
+
+[tool.setuptools.packages.find]
+include = ["grokking_diag*"]

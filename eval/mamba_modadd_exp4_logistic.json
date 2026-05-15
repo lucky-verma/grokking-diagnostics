@@ -1,0 +1,178 @@
+{
+  "wd_c": 0.014392440658441788,
+  "k": 20.63322641940252,
+  "ci_95": [
+    0.01055649160367376,
+    0.015949456473226733
+  ],
+  "n_bootstrap_ok": 1500,
+  "n_grok": 46,
+  "n_points": 70,
+  "n_bins": 7,
+  "bins": [
+    {
+      "wd": 0.003,
+      "p_grok": 0.0,
+      "n": 10
+    },
+    {
+      "wd": 0.006,
+      "p_grok": 0.0,
+      "n": 10
+    },
+    {
+      "wd": 0.015,
+      "p_grok": 0.6,
+      "n": 10
+    },
+    {
+      "wd": 0.02,
+      "p_grok": 1.0,
+      "n": 10
+    },
+    {
+      "wd": 0.03,
+      "p_grok": 1.0,
+      "n": 10
+    },
+    {
+      "wd": 0.05,
+      "p_grok": 1.0,
+      "n": 10
+    },
+    {
+      "wd": 0.07,
+      "p_grok": 1.0,
+      "n": 10
+    }
+  ],
+  "per_wd": {
+    "0.003": {
+      "n": 10,
+      "n_grok": 0,
+      "p_grok": 0.0,
+      "wilson95_lo": 0,
+      "wilson95_hi": 0.2775401687666166,
+      "median_test_acc": 0.0052072263549415515,
+      "min_grok_epoch": null,
+      "median_grok_epoch": null
+    },
+    "0.006": {
+      "n": 10,
+      "n_grok": 0,
+      "p_grok": 0.0,
+      "wilson95_lo": 0,
+      "wilson95_hi": 0.2775401687666166,
+      "median_test_acc": 0.009883103081827844,
+      "min_grok_epoch": null,
+      "median_grok_epoch": null
+    },
+    "0.015": {
+      "n": 10,
+      "n_grok": 6,
+      "p_grok": 0.6,
+      "wilson95_lo": 0.3126695474501864,
+      "wilson95_hi": 0.8318224187964902,
+      "median_test_acc": 0.9498405951115834,
+      "min_grok_epoch": 8876,
+      "median_grok_epoch": 9543
+    },
+    "0.02": {
+      "n": 10,
+      "n_grok": 10,
+      "p_grok": 1.0,
+      "wilson95_lo": 0.7224598312333834,
+      "wilson95_hi": 1,
+      "median_test_acc": 0.997874601487779,
+      "min_grok_epoch": 7055,
+      "median_grok_epoch": 8469
+    },
+    "0.03": {
+      "n": 10,
+      "n_grok": 10,
+      "p_grok": 1.0,
+      "wilson95_lo": 0.7224598312333834,
+      "wilson95_hi": 1,
+      "median_test_acc": 0.9981934112646121,
+      "min_grok_epoch": 5648,
+      "median_grok_epoch": 6248
+    },
+    "0.05": {
+      "n": 10,
+      "n_grok": 10,
+      "p_grok": 1.0,
+      "wilson95_lo": 0.7224598312333834,
+      "wilson95_hi": 1,
+      "median_test_acc": 1.0,
+      "min_grok_epoch": 2867,
+      "median_grok_epoch": 3404
+    },
+    "0.07": {
+      "n": 10,
+      "n_grok": 10,
+      "p_grok": 1.0,
+      "wilson95_lo": 0.7224598312333834,
+      "wilson95_hi": 1,
+      "median_test_acc": 1.0,
+      "min_grok_epoch": 2182,
+      "median_grok_epoch": 2397
+    }
+  },
+  "elapsed_sec_median": 3612.669397830963,
+  "elapsed_sec_min": 2502.8662898540497,
+  "elapsed_sec_max": 3845.7271449565887,
+  "n_params_per_run": [
+    957952
+  ],
+  "d_model": 128,
+  "expand": 4,
+  "n_layers": 4,
+  "task": "mod_add",
+  "fit_method": "Laplace-smoothed logistic (n_per_bin smoothing 0.5) on log10(wd), scipy curve_fit; 1500 bootstrap iters",
+  "exp": "mamba_modadd_exp4",
+  "arch": "Mamba",
+  "arch_detail": "4-layer pure-PyTorch Mamba, d_model=128, expand=4, d_state=16, d_conv=4, no attention, selective scan",
+  "p": 97,
+  "epochs": 10000,
+  "n_total_cells": 70,
+  "n_grok_total": 46,
+  "wd_grid": [
+    0.003,
+    0.006,
+    0.015,
+    0.02,
+    0.03,
+    0.05,
+    0.07
+  ],
+  "seed_grid": [
+    7,
+    11,
+    31,
+    42,
+    73,
+    97,
+    123,
+    199,
+    401,
+    977
+  ],
+  "lambda_c": 0.014392440658441788,
+  "lambda_c_ci95_bootstrap": [
+    0.01055649160367376,
+    0.015949456473226733
+  ],
+  "lambda_c_ci95_bootstrap_method": "percentile, n_resample=1500, seed=42",
+  "tau": 0.04846551768848167,
+  "provenance": {
+    "cluster": "H100 GPU cluster",
+    "launcher": "cross-arch/mamba/launch_shard.sh (parallel-fanout)",
+    "trainer": "cross-arch/mamba/train_mamba.py",
+    "training_log_project": "public-training-log",
+    "training_log_group": "mamba_modadd_exp4",
+    "raw_json_glob": "cross-arch/mamba/modadd-exp4/**/*.json",
+    "date_completed_utc": "2026-05-14T14:46:04Z",
+    "concurrency": "MAX_CONCURRENT=12 per GPU x 2 GPUs, TF32 + cudnn.benchmark + GPU-accumulator pattern (no per-batch host sync)",
+    "compile_mode": "reduce-overhead"
+  }
+}

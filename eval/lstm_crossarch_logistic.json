@@ -1,0 +1,126 @@
+{
+  "exp": "lstm_crossarch",
+  "arch": "LSTM",
+  "arch_detail": "4-layer LSTM, hidden_dim=512, no attention, no per-head structure",
+  "n_params_per_run": [
+    7680640
+  ],
+  "task": "mod_add",
+  "p": 97,
+  "epochs": 10000,
+  "n_total_cells": 70,
+  "n_grok_total": 22,
+  "wd_grid": [
+    0.003,
+    0.006,
+    0.015,
+    0.02,
+    0.03,
+    0.05,
+    0.07
+  ],
+  "seed_grid": [
+    7,
+    11,
+    31,
+    42,
+    73,
+    97,
+    123,
+    199,
+    401,
+    977
+  ],
+  "lambda_c": 0.03645703613492672,
+  "lambda_c_ci95_bootstrap": [
+    0.029895317669589812,
+    0.047332581391918205
+  ],
+  "lambda_c_ci95_bootstrap_method": "percentile, n_resample=1000, seed=42",
+  "tau": 0.15035195175959087,
+  "fit_method": "logistic on log(lambda), scipy curve_fit",
+  "per_wd": {
+    "0.003": {
+      "n": 10,
+      "n_grok": 0,
+      "p_grok": 0.0,
+      "wilson95_lo": 0.0,
+      "wilson95_hi": 0.2775401687666166,
+      "median_test_acc": 0.016153028692879916,
+      "min_grok_epoch": null,
+      "median_grok_epoch": null
+    },
+    "0.006": {
+      "n": 10,
+      "n_grok": 0,
+      "p_grok": 0.0,
+      "wilson95_lo": 0.0,
+      "wilson95_hi": 0.2775401687666166,
+      "median_test_acc": 0.01849096705632306,
+      "min_grok_epoch": null,
+      "median_grok_epoch": null
+    },
+    "0.015": {
+      "n": 10,
+      "n_grok": 0,
+      "p_grok": 0.0,
+      "wilson95_lo": 0.0,
+      "wilson95_hi": 0.2775401687666166,
+      "median_test_acc": 0.03358129649309245,
+      "min_grok_epoch": null,
+      "median_grok_epoch": null
+    },
+    "0.02": {
+      "n": 10,
+      "n_grok": 1,
+      "p_grok": 0.1,
+      "wilson95_lo": 0.01787574951572113,
+      "wilson95_hi": 0.4041563854975721,
+      "median_test_acc": 0.044633368756641874,
+      "min_grok_epoch": 8620,
+      "median_grok_epoch": 8620
+    },
+    "0.03": {
+      "n": 10,
+      "n_grok": 2,
+      "p_grok": 0.2,
+      "wilson95_lo": 0.056680947980693314,
+      "wilson95_hi": 0.5098431532792765,
+      "median_test_acc": 0.3691817215727949,
+      "min_grok_epoch": 5814,
+      "median_grok_epoch": 8004
+    },
+    "0.05": {
+      "n": 10,
+      "n_grok": 9,
+      "p_grok": 0.9,
+      "wilson95_lo": 0.5958436145024278,
+      "wilson95_hi": 0.9821242504842788,
+      "median_test_acc": 1.0,
+      "min_grok_epoch": 3050,
+      "median_grok_epoch": 6012
+    },
+    "0.07": {
+      "n": 10,
+      "n_grok": 10,
+      "p_grok": 1.0,
+      "wilson95_lo": 0.7224598312333834,
+      "wilson95_hi": 1.0,
+      "median_test_acc": 1.0,
+      "min_grok_epoch": 2448,
+      "median_grok_epoch": 4833
+    }
+  },
+  "elapsed_sec_median": 1206.8216500282288,
+  "elapsed_sec_min": 571.3296036720276,
+  "elapsed_sec_max": 1211.013625383377,
+  "provenance": {
+    "cluster": "H100 GPU cluster",
+    "launcher": "src/lstm_sweep.sh",
+    "trainer": "src/train_lstm.py",
+    "training_log_project": "public-training-log",
+    "training_log_group": "lstm_crossarch",
+    "raw_json_glob": "cross-arch/lstm/**/*.json",
+    "date_completed_utc": "2026-05-12T06:08:40Z"
+  }
+}
