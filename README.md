@@ -100,8 +100,8 @@ python scripts/download_dataset.py --cohort all
 ```
 
 The Hugging Face dataset exposes `PROVENANCE.json`, `SHA256SUMS.txt`,
-`VALIDATION_REPORT.md`, `CITATION.bib`, and `data/artifact_index.jsonl`. The
-repo-side metadata sync check is:
+`CITATION.bib`, `data/artifact_index.jsonl`, and the public validation report
+at `metadata/validation_report.md`. The repo-side metadata sync check is:
 
 ```bash
 make hf-validate
