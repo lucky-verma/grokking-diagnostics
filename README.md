@@ -1,5 +1,6 @@
 # Grokking Diagnostics
 
+[![arXiv](https://img.shields.io/badge/arXiv-2605.20441-b31b1b.svg)](https://arxiv.org/abs/2605.20441)
 [![Dataset on HF](https://img.shields.io/badge/🤗-Dataset-yellow)](https://huggingface.co/datasets/lucky-verma/grokking-diagnostics-runs)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
@@ -8,6 +9,7 @@ Code, data, formal verification, and reproducibility artifacts for:
 
 > **Weight Decay Regimes in Grokking Transformers: Cheap Online Diagnostics**
 > Lucky Verma. Independent Researcher. 2026.
+> [Paper](https://arxiv.org/abs/2605.20441) · [DOI](https://doi.org/10.48550/arXiv.2605.20441) · [PDF](https://arxiv.org/pdf/2605.20441)
 > [Dataset](https://huggingface.co/datasets/lucky-verma/grokking-diagnostics-runs)
 
 ## Artifact Contract
@@ -146,7 +148,13 @@ The Mamba selective-state-space architecture's empirical λ_c CI overlaps the tr
 @article{verma2026grokking,
   title   = {Weight Decay Regimes in Grokking Transformers: Cheap Online Diagnostics},
   author  = {Verma, Lucky},
-  year    = {2026}
+  year    = {2026},
+  publisher = {arXiv},
+  doi     = {10.48550/arXiv.2605.20441},
+  url     = {https://arxiv.org/abs/2605.20441},
+  eprint  = {2605.20441},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.LG}
 }
 ```
 
