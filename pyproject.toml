@@ -28,8 +28,10 @@ dependencies = [
 
 [project.optional-dependencies]
 torch = ["torch>=2.0"]
-demo = ["gradio>=4.0", "datasets>=2.14"]
-dev = ["pytest>=7.0", "pytest-cov", "ruff", "mypy"]
+figures = ["matplotlib>=3.7"]
+data = ["huggingface_hub>=0.20"]
+demo = ["gradio>=4.0", "datasets>=2.14", "huggingface_hub>=0.20"]
+dev = ["pytest>=7.0", "pytest-cov", "ruff", "mypy", "matplotlib>=3.7"]
 
 [project.scripts]
 grokking-diag = "grokking_diag.cli:main"

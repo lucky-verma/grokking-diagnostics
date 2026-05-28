@@ -13,7 +13,7 @@ Quickstart:
 Phase identification on canonical 4L8H modular-arithmetic transformers:
     Phase 1 (sync, near grokking):     mean_similarity >= 0.93, entropy_std rising
     Phase 2 (differentiation):         mean_similarity dips to ~0.88, entropy_std peaks
-    Phase 5 (late-collapse warning):   PR_norm < 0.2 on canonical seed-42
+    Phase 5 (observed late collapse):  PR_norm < 0.2 on canonical seed-42
 
 Companion paper: Verma 2026, "Weight Decay Regimes in Grokking Transformers:
 Cheap Online Diagnostics".

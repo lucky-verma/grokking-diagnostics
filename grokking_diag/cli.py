@@ -1,9 +1,9 @@
 """Command-line interface for grokking-diag.
 
 Usage:
-    grokking-diag analyze <checkpoint.pt>
-    grokking-diag predict --features '{"wd": 0.1, ...}'
     grokking-diag info
+    grokking-diag predict --features '{"wd": 0.1, ...}'
+    grokking-diag analyze <checkpoint.pt>
 """
 from __future__ import annotations
 
@@ -17,8 +17,9 @@ from .predictor import RetentionPredictor
 
 def _info():
     print(f"grokking-diag v{__version__}")
-    print("Companion paper: Verma 2026 'Predicting Catastrophic Training Collapse'")
-    print("Source: https://github.com/lucky-verma/grokking-diag")
+    print("Companion paper: Verma 2026 'Weight Decay Regimes in Grokking Transformers'")
+    print("Source: https://github.com/lucky-verma/grokking-diagnostics")
+    print("Dataset: https://huggingface.co/datasets/lucky-verma/grokking-diagnostics-runs")
 
 
 def _predict(features_json: str):
@@ -29,7 +30,11 @@ def _predict(features_json: str):
 
 
 def _analyze(ckpt_path: str):
-    print(f"analyze {ckpt_path}: not yet implemented; see predict for now")
+    print(
+        f"analyze {ckpt_path}: checkpoint adapters are not bundled in v0.1. "
+        "Use the Python API with attention tensors, or run `grokking-diag predict` "
+        "for the shipped aggregate-feature interface."
+    )
     return 1
 
 

@@ -8,14 +8,15 @@
 # part of this script.
 
 set -euo pipefail
+PYTHON_BIN="${PYTHON:-python3}"
 
 echo "=== Regenerating selected public figures ==="
-python eval/scripts/gen_fig8_intervention_forest.py
-python eval/scripts/gen_fig9_multitask_heatmap.py
-python eval/scripts/gen_fig10_cross_arch.py
+"${PYTHON_BIN}" eval/scripts/gen_fig8_intervention_forest.py
+"${PYTHON_BIN}" eval/scripts/gen_fig9_multitask_heatmap.py
+"${PYTHON_BIN}" eval/scripts/gen_fig10_cross_arch.py
 
 echo "=== Verifying numerical claims ==="
-python scripts/verify_numerical_claims.py
+"${PYTHON_BIN}" scripts/verify_numerical_claims.py
 
 echo ""
 echo "Done. Regenerated Figures 8-10 and verified aggregate-backed claims."
