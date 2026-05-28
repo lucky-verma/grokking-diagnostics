@@ -1,7 +1,7 @@
 PYTHON ?= python3
 PIP ?= $(PYTHON) -m pip
 
-.PHONY: help install install-dev install-figures install-data validate test figures dataset-aggregates lean
+.PHONY: help install install-dev install-figures install-data validate test figures dataset-aggregates hf-validate lean
 
 help:
 	@echo "Targets:"
@@ -13,6 +13,7 @@ help:
 	@echo "  make test                Run pytest tests"
 	@echo "  make figures             Regenerate selected public figures"
 	@echo "  make dataset-aggregates  Download aggregate JSONs from Hugging Face"
+	@echo "  make hf-validate         Check live Hugging Face dataset metadata"
 	@echo "  make lean                Build Lean diagnostic checks"
 
 install:
@@ -40,6 +41,9 @@ figures:
 
 dataset-aggregates:
 	$(PYTHON) scripts/download_dataset.py --cohort aggregates
+
+hf-validate:
+	$(PYTHON) scripts/validate_hf_dataset.py
 
 lean:
 	cd lean_proofs && lake build Diagnostics

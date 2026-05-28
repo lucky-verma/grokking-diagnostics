@@ -99,6 +99,14 @@ The verification script checks every public aggregate-backed headline number and
 python scripts/download_dataset.py --cohort all
 ```
 
+The Hugging Face dataset exposes `PROVENANCE.json`, `SHA256SUMS.txt`,
+`VALIDATION_REPORT.md`, `CITATION.bib`, and `data/artifact_index.jsonl`. The
+repo-side metadata sync check is:
+
+```bash
+make hf-validate
+```
+
 Full retraining and full end-to-end regeneration of every paper figure from raw runs are not claimed as one-command artifacts in this lightweight public repository.
 
 Common replication targets:
@@ -109,6 +117,7 @@ make install-figures      # install matplotlib before figure regeneration
 make figures              # regenerate selected bundled figures, then verify numbers
 make install-data         # install Hugging Face Hub before dataset download
 make dataset-aggregates   # download aggregate JSONs from the companion dataset
+make hf-validate          # check live HF dataset metadata/provenance wiring
 make test                 # pytest suite; requires make install-dev
 make lean                 # Lean diagnostic checks; requires Lean/lake
 ```

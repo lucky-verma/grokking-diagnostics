@@ -9,7 +9,7 @@ authors:
     affiliation: Independent Researcher
 
 preferred-citation:
-  type: article
+  type: generic
   title: "Weight Decay Regimes in Grokking Transformers: Cheap Online Diagnostics"
   authors:
     - given-names: Lucky
@@ -17,6 +17,15 @@ preferred-citation:
       email: luckyv1@umbc.edu
       affiliation: Independent Researcher
   year: 2026
+  publisher:
+    name: "arXiv"
+  doi: "10.48550/arXiv.2605.20441"
+  url: "https://arxiv.org/abs/2605.20441"
+  license: CC-BY-4.0
+  identifiers:
+    - type: other
+      value: "arXiv:2605.20441"
+      description: "arXiv identifier"
 keywords:
   - grokking
   - transformers
