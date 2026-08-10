@@ -29,13 +29,13 @@ __version__ = "0.1.0"
 from .metrics import (
     compute_attention_entropy_per_head,
     compute_head_functional_similarity_matrix,
-    compute_synchronization_order_parameter,
     compute_metrics,
+    compute_synchronization_order_parameter,
 )
 
 __all__ = [
     "compute_attention_entropy_per_head",
     "compute_head_functional_similarity_matrix",
-    "compute_synchronization_order_parameter",
     "compute_metrics",
+    "compute_synchronization_order_parameter",
 ]

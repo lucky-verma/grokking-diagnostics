@@ -18,7 +18,6 @@ from pathlib import Path
 
 import numpy as np
 
-
 DEFAULT_FEATURE_NAMES = ["scale", "n_layers", "d_model", "n_heads", "d_per_H",
                          "wd", "train_acc", "test_acc", "sim_mean", "ent_std",
                          "ent_mean", "weight_norm"]
@@ -68,7 +67,7 @@ class RetentionPredictor:
         x = np.array([[features.get(f, 0.0) or 0.0 for f in self.feature_names]])
         try:
             proba = self.model.predict_proba(x)
-        except Exception:
+        except (AttributeError, ValueError):
             return {"p_stable": -1.0, "regime": "predictor_not_fitted",
                     "note": "Default predictor weights are not bundled. Load a fitted "
                             "scikit-learn model through RetentionPredictor(model=...)."}
