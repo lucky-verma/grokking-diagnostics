@@ -14,8 +14,9 @@ Code, data, formal verification, and reproducibility artifacts for:
 
 ## Artifact Contract
 
-Use this repository to compute cheap attention-head diagnostics during
-transformer training and to audit the paper's aggregate-backed claims.
+Use this repository to inspect attention-head measurements during transformer
+training and audit the paper's aggregate-backed claims. It does not currently
+establish that these measurements add predictive value beyond simple signals.
 
 The reusable object is:
 
@@ -29,9 +30,14 @@ end-to-end regeneration of every figure from raw logs. Raw per-run records live
 in the companion dataset, and the supported public surface is the package,
 figures, aggregate JSONs, selected scripts, coverage manifest, and verifier.
 
-## TL;DR
+## Version status
 
-Two cheap online diagnostics, **mean pairwise attention-head cosine similarity** (`s̄`) and **entropy standard deviation across heads** (`σ_H`), track grokking phase regimes from attention activations alone, at ~3% wall-clock overhead in the reported setting. They complement Hessian-based diagnostics at lower compute cost. We map a 2-axis (weight-decay × model-size) regime diagram across 1,120 modular-arithmetic transformer runs (0.82M-85M parameters) and bound architecture-specificity with three horizon-matched cross-architecture scope probes (4L MLP, 4L LSTM, 4L Mamba; 350 additional runs).
+The repository preserves a large modular-arithmetic training atlas, attention
+readouts, cross-architecture scope probes, and the v1 analysis. Follow-up
+held-out analyses did not show the attention readouts adding predictive value
+beyond simple training-clock, loss, and norm baselines. The artifacts remain
+useful for measurement, inspection, and reanalysis; they should not be treated
+as a validated causal or predictive diagnostic rule.
 
 ![Regime diagram](figures/fig1_phase_diagram.png)
 
@@ -71,7 +77,8 @@ attn_per_layer = [model.layers[i].attn.weights for i in range(model.n_layers)]
 metrics = compute_metrics(attn_per_layer)
 # {"mean_similarity": 0.93, "entropy_std": 0.18, "PR_norm": 0.71, ...}
 
-# Phase identification on canonical 4L8H modular-arithmetic transformers:
+# Historical v1 labels on canonical 4L8H modular-arithmetic transformers.
+# These are not a current phase classifier or deployment rule:
 #   Phase 1 (sync, near grokking):     mean_similarity in [0.93, 0.99], entropy_std rising
 #   Phase 2 (differentiation):         mean_similarity dips to ~0.88, entropy_std peaks
 #   Phase 5 (observed late collapse):  PR_norm < 0.2 on canonical seed-42
@@ -134,7 +141,10 @@ lake build Diagnostics
 
 These proofs establish *well-formedness* of the diagnostic identities (bounds, identities, rank properties); they do not formalise the empirical experimental claims, which remain JSON-traced via the provenance map.
 
-## Key results
+## Reported v1 values
+
+The table below is retained to make arXiv v1 provenance inspectable. These are
+historical report values, not a validated estimate set or deployment rule.
 
 | Quantity | Value (95% CI) | Provenance |
 |---|---|---|
@@ -149,7 +159,9 @@ These proofs establish *well-formedness* of the diagnostic identities (bounds, i
 
 Tested universality classes (ν=1/2 mean field, ν=0.63 3D Ising) lie outside the empirical CI, so we report ν as empirical and defer universality-class identification to denser finite-size-scaling data-collapse work.
 
-The Mamba selective-state-space architecture's empirical λ_c CI overlaps the transformer canonical CI without our paper claiming a shared transition mechanism; per-architecture canonical λ should be recalibrated rather than transferred across architectures.
+The v1 manuscript reported that the Mamba selective-state-space architecture's
+empirical λ_c interval overlapped the transformer interval. That comparison is
+a historical v1 result and is not current transfer guidance.
 
 ## Citation
 
